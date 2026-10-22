@@ -36,6 +36,10 @@ pub fn run(args: &[String], io: &dyn Io) -> i32 {
             ));
             0
         }
+        Command::Version => {
+            io.out(concat!("sketchfold ", env!("CARGO_PKG_VERSION"), "\n"));
+            0
+        }
         Command::Build {
             specs,
             delim,
