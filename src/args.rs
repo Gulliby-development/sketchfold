@@ -9,6 +9,7 @@ use crate::text::parse_count;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Command {
     Help,
+    Version,
     Build {
         specs: Vec<Spec>,
         delim: Vec<u8>,
@@ -59,6 +60,9 @@ pub fn parse(args: &[String]) -> Result<Command, CliError> {
     }
     if args.len() == 1 && args[0] == "--help" {
         return Ok(Command::Help);
+    }
+    if args.len() == 1 && args[0] == "--version" {
+        return Ok(Command::Version);
     }
 
     let command = args[0].as_str();

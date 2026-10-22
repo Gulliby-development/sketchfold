@@ -30,6 +30,8 @@ usage: sketchfold build --sketch NAME:KIND:FIELD[:PARAM]... [--delim C] --out BU
        sketchfold verify BUNDLE...
 ```
 
+`sketchfold --version` as the only argument prints `sketchfold 0.2.0` and exits with 0. The help synopsis above does not list it.
+
 For the examples below, save this input as `access.log`:
 
 ```text
