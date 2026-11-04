@@ -59,6 +59,16 @@ pub fn show(bundle: &Bundle) -> String {
 
 /// Renders a frequent-values report, limiting the displayed counters if asked.
 pub fn top(name: &str, frequent: &Frequent, limit: Option<usize>) -> String {
+    top_with_min(name, frequent, limit, None)
+}
+
+/// Renders a frequent-values report that shows only counters of at least `min`, then limits their number if asked.
+pub fn top_with_min(
+    name: &str,
+    frequent: &Frequent,
+    limit: Option<usize>,
+    min: Option<u64>,
+) -> String {
     let width = frequent
         .items
         .iter()
@@ -67,7 +77,12 @@ pub fn top(name: &str, frequent: &Frequent, limit: Option<usize>) -> String {
         .unwrap_or(1);
     let mut output = format!("{name}: n={}, slack {}\n", frequent.n, frequent.slack());
 
-    for (value, count) in frequent.items.iter().take(limit.unwrap_or(usize::MAX)) {
+    let shown = frequent
+        .items
+        .iter()
+        .filter(|(_, count)| *count >= min.unwrap_or(0))
+        .take(limit.unwrap_or(usize::MAX));
+    for (value, count) in shown {
         output.push_str(&format!("{count:>width$}  {}\n", escape_value(value)));
     }
 

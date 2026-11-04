@@ -363,6 +363,7 @@ fn final_limit_value_is_validated_and_inclusive_endpoints_are_accepted() {
             bundle: "bundle".to_owned(),
             name: "words".to_owned(),
             limit: Some(1_000_000),
+            min: None,
         })
     );
     assert_error(
@@ -375,6 +376,7 @@ fn final_limit_value_is_validated_and_inclusive_endpoints_are_accepted() {
             bundle: "bundle".to_owned(),
             name: "words".to_owned(),
             limit: Some(1),
+            min: None,
         })
     );
 }
@@ -471,6 +473,7 @@ fn top_name_dash_is_not_a_second_input_path() {
             bundle: "-".to_owned(),
             name: "-".to_owned(),
             limit: None,
+            min: None,
         })
     );
 }
@@ -577,6 +580,7 @@ fn commands_parse_into_their_expected_public_variants() {
             bundle: "bundle".to_owned(),
             name: "words".to_owned(),
             limit: Some(4),
+            min: None,
         })
     );
     assert_eq!(

@@ -29,7 +29,7 @@ pub fn run(args: &[String], io: &dyn Io) -> i32 {
                 "usage: sketchfold build --sketch NAME:KIND:FIELD[:PARAM]... [--delim C] --out BUNDLE [FILE...]\n",
                   "       sketchfold merge --out BUNDLE BUNDLE BUNDLE...\n",
                 "       sketchfold show BUNDLE\n",
-                "       sketchfold top [--limit N] BUNDLE NAME\n",
+                "       sketchfold top [--limit N] [--min N] BUNDLE NAME\n",
                 "       sketchfold quantile BUNDLE NAME Q...\n",
                 "       sketchfold has BUNDLE NAME VALUE...\n",
                 "       sketchfold verify BUNDLE...\n",
@@ -58,6 +58,7 @@ pub fn run(args: &[String], io: &dyn Io) -> i32 {
             bundle,
             name,
             limit,
+            min,
         } => {
             let bundle = match load_bundle(&bundle, io) {
                 Ok(bundle) => bundle,
@@ -69,7 +70,7 @@ pub fn run(args: &[String], io: &dyn Io) -> i32 {
             let Sketch::Top(frequent) = sketch else {
                 return fail(io, CliError(format!("{name}: not a top sketch")));
             };
-            io.out(&report::top(&name, frequent, limit));
+            io.out(&report::top_with_min(&name, frequent, limit, min));
             0
         }
         Command::Quantile {
