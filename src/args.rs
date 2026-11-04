@@ -27,6 +27,7 @@ pub enum Command {
         bundle: String,
         name: String,
         limit: Option<usize>,
+        min: Option<u64>,
     },
     Quantile {
         bundle: String,
@@ -49,6 +50,7 @@ struct Options {
     delim: Option<String>,
     out: Option<String>,
     limit: Option<String>,
+    min: Option<String>,
 }
 
 /// Parses arguments without performing any input or output.
@@ -119,6 +121,18 @@ pub fn parse(args: &[String]) -> Result<Command, CliError> {
         None
     };
 
+    let min = if command == "top" {
+        match options.min.as_deref() {
+            Some(value) => Some(
+                parse_count(value, 1, u64::MAX)
+                    .ok_or_else(|| error(format!("invalid --min {value:?}")))?,
+            ),
+            None => None,
+        }
+    } else {
+        None
+    };
+
     match command {
         "build" => {
             let out = options.out.ok_or_else(|| error("missing --out"))?;
@@ -170,6 +184,7 @@ pub fn parse(args: &[String]) -> Result<Command, CliError> {
                 bundle,
                 name,
                 limit,
+                min,
             })
         }
         "quantile" => {
@@ -251,6 +266,7 @@ fn scan_options(command: &str, args: &[String]) -> Result<(Vec<String>, Options)
             ("build", "--delim") => Some(1),
             ("build" | "merge", "--out") => Some(2),
             ("top", "--limit") => Some(3),
+            ("top", "--min") => Some(4),
             _ => None,
         };
         let Some(offered) = offered else {
@@ -272,6 +288,7 @@ fn scan_options(command: &str, args: &[String]) -> Result<(Vec<String>, Options)
             1 => options.delim = Some(value),
             2 => options.out = Some(value),
             3 => options.limit = Some(value),
+            4 => options.min = Some(value),
             _ => unreachable!("all offered options have an assigned slot"),
         }
         index += 1;

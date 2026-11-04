@@ -6,7 +6,7 @@ fn usage_synopsis_matches_all_seven_lines_with_lf() {
         "usage: sketchfold build --sketch NAME:KIND:FIELD[:PARAM]... [--delim C] --out BUNDLE [FILE...]\n",
         "       sketchfold merge --out BUNDLE BUNDLE BUNDLE...\n",
         "       sketchfold show BUNDLE\n",
-        "       sketchfold top [--limit N] BUNDLE NAME\n",
+        "       sketchfold top [--limit N] [--min N] BUNDLE NAME\n",
         "       sketchfold quantile BUNDLE NAME Q...\n",
         "       sketchfold has BUNDLE NAME VALUE...\n",
         "       sketchfold verify BUNDLE...\n",

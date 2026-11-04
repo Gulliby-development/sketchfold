@@ -188,7 +188,7 @@ fn help_has_the_exact_seven_lf_terminated_usage_lines() {
             "usage: sketchfold build --sketch NAME:KIND:FIELD[:PARAM]... [--delim C] --out BUNDLE [FILE...]\n",
             "       sketchfold merge --out BUNDLE BUNDLE BUNDLE...\n",
             "       sketchfold show BUNDLE\n",
-            "       sketchfold top [--limit N] BUNDLE NAME\n",
+            "       sketchfold top [--limit N] [--min N] BUNDLE NAME\n",
             "       sketchfold quantile BUNDLE NAME Q...\n",
             "       sketchfold has BUNDLE NAME VALUE...\n",
             "       sketchfold verify BUNDLE...\n",
